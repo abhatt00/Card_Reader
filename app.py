@@ -42,7 +42,7 @@ for image_path in os.listdir(path):
     #     print(imageFile)
         # str = base64.b64encode(path + imageFile.read())
     #     # //store str in mongo
-        blackjack.update_many({}, my_string, upsert=True)
+        blackjack.update_one({}, my_string, upsert=True)
 
 
 # Or set inline
