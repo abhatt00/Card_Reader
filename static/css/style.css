@@ -1,0 +1,13 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+
+#map
+{
+  height:100%;
+}
+
+.row{
+padding-bottom: 25px;
+}
