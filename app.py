@@ -42,7 +42,7 @@ for image_path in os.listdir(path):
     #     print(imageFile)
         # str = base64.b64encode(path + imageFile.read())
     #     # //store str in mongo
-    #     blackjack.update({}, str, upsert=True)
+        blackjack.update_many({}, my_string, upsert=True)
 
 
 # Or set inline
@@ -62,5 +62,5 @@ for image_path in os.listdir(path):
 #     return "Scraping Successful!"
 
 # MAKE SURE YOU UNCOMMENT ME vvv
-# if __name__ == "__main__":
-#     app.run()
+if __name__ == "__main__":
+    app.run()
