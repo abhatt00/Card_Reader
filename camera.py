@@ -1,53 +1,145 @@
 from time import time
 import cv2
 import numpy as np
+import Cards
+import os
 
 
 class VideoCamera(object):
     def __init__(self):
         self.video = cv2.VideoCapture(0)
-        self.window = cv2.namedWindow("test")
+
 
     def __del__(self):
         self.video.release()
+        
+    def get_frame2(self):
+        frame_rate_calc = 1
+        freq = cv2.getTickFrequency()
 
-    def get_frame(self):
-        while(self.video.isOpened()):
-            try: 
-                # Capture frame-by-frame
-                cv2.waitKey(2)
-                ret, frame = self.video.read()
-                #convert frame into gray color
-                gray = cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
-                #noise reducing to find card
-                gray = cv2.bilateralFilter(gray,11,17,17)
-                edge = cv2.Canny(gray,30,200)
-                contours,hier = cv2.findContours(edge.copy(),cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
-                contour = sorted(contours,key=cv2.contourArea, reverse=True)[1]
-                if(contours):
-                    rect = cv2.minAreaRect(contour)
-                    box = cv2.boxPoints(rect)
-                    box = np.int0(box)
-                    areaContour = cv2.contourArea(contour)
-                    areaBox = cv2.contourArea(box)
-                    if(areaBox>0):
-                        valid = areaContour/areaBox>0.95
-                        cv2.drawContours(frame, contours, 0, (0,255,0), 3)
+        ## Define font to use
+        font = cv2.FONT_HERSHEY_SIMPLEX
+
+            # Initialize camera object and video feed from the camera. The video stream is set up
+            # as a seperate thread that constantly grabs frames from the camera feed. 
+            # See VideoStream.py for VideoStream class definition
+            ## IF USING USB CAMERA INSTEAD OF PICAMERA,
+            ## CHANGE THE THIRD ARGUMENT FROM 1 TO 2 IN THE FOLLOWING LINE:
+            # videostream = VideoStream.VideoStream((IM_WIDTH,IM_HEIGHT),FRAME_RATE,1,0).start()
+        # Give the camera time to warm up
+
+
+            # Load the train rank and suit images
+        path = os.path.dirname(os.path.abspath(__file__))
+        train_ranks = Cards.load_ranks( path + '/Card_Imgs/')
+        train_suits = Cards.load_suits( path + '/Card_Imgs/')
+
+
+            ### ---- MAIN LOOP ---- ###
+            # The main loop repeatedly grabs frames from the video stream
+            # and processes them to find and identify playing cards.
+
+        cam_quit = 0 # Loop control variable
+
+            # Begin capturing frames
+        while cam_quit == 0:
+
+                # Grab frame from video stream
+                ret, image = self.video.read()
+
+                # Start timer (for calculating frame rate)
+                t1 = cv2.getTickCount()
+
+                # Pre-process camera image (gray, blur, and threshold it)
+                pre_proc = Cards.preprocess_image(image)
+                
+                # Find and sort the contours of all cards in the image (query cards)
+                cnts_sort, cnt_is_card = Cards.find_cards(pre_proc)
+
+                # If there are no contours, do nothing
+                if len(cnts_sort) != 0:
+
+                    # Initialize a new "cards" list to assign the card objects.
+                    # k indexes the newly made array of cards.
+                    cards = []
+                    k = 0
+
+                    # For each contour detected:
+                    for i in range(len(cnts_sort)):
+                        if (cnt_is_card[i] == 1):
+
+                            # Create a card object from the contour and append it to the list of cards.
+                            # preprocess_card function takes the card contour and contour and
+                            # determines the cards properties (corner points, etc). It generates a
+                            # flattened 200x300 image of the card, and isolates the card's
+                            # suit and rank from the image.
+                            cards.append(Cards.preprocess_card(cnts_sort[i],image))
+
+                            # Find the best rank and suit match for the card.
+                            cards[k].best_rank_match,cards[k].best_suit_match,cards[k].rank_diff,cards[k].suit_diff = Cards.match_card(cards[k],train_ranks,train_suits)
+
+                            # Draw center point and match result on the image.
+                            image = Cards.draw_results(image, cards[k])
+                            k = k + 1
+                    
+                    # Draw card contours on image (have to do contours all at once or
+                    # they do not show up properly for some reason)
+                    if (len(cards) != 0):
+                        temp_cnts = []
+                        for i in range(len(cards)):
+                            temp_cnts.append(cards[i].contour)
+                            cv2.drawContours(image,temp_cnts, -1, (255,0,0), 2)
+
+                        # BEGIN: MIKE BRYANT ADDED CODE
+                        # -------------------------------------
+                        # display number of cards detected
+                            cv2.putText(image, "# of cards detected: " + str(len(cards)), (10, 50), font, 0.7, (0, 255, 0), 2,
+                                        cv2.LINE_AA)
+
+                            # display cards types detected
+                            textY = 70  # text height, to be updated each loop
+                            cv2.putText(image, " ", (10, 70), font, 0.7, (0, 255, 0), 2,
+                                        cv2.LINE_AA)
+                    for card in cards:
+                        textY += 20
+                        message = str(card.best_rank_match) + " of " + str(card.best_suit_match)
+                        cv2.putText(image, message, (10, textY), font, 0.7, (0, 255, 0), 2,
+                                            cv2.LINE_AA)
+
+                        # display deck state
+                    deck = ['Ace','Two','Three','Four','Five','Six','Seven','Eight',
+                        'Nine','Ten','Jack','Queen','King','Spades','Diamonds',
+                        'Clubs','Hearts']
+                        
+
+
+                        # display blackjack total
+
+
+
+
+                        # -------------------------------------
+                        # END: MIKE BRYANT ADDED CODE
+
+                # Draw framerate in the corner of the image. Framerate is calculated at the end of the main loop,
+                # so the first time this runs, framerate will be shown as 0.
+                cv2.putText(image, "FPS: "+ str(int(frame_rate_calc)),(10,26),font,0.7,(255,0,255),2,cv2.LINE_AA)
+
+                # MIKE BRYANT ADDED CODE
+                # -------------------------------------
+
                 if ret == True:
-                
-                    # Display the resulting frame
-                    cv2.imshow('Frame',frame)
-                    ret, jpeg = cv2.imencode('.jpg',frame)
+                    ret, jpeg = cv2.imencode('.jpg',image)
                     return jpeg.tobytes()
-                    # Press Q on keyboard to  exit
-                    if cv2.waitKey(25) & 0xFF == ord('q'):
-                        break
-            except: 
-                print("Something went wrong")
+                # Finally, display the image with the identified cards!
+                # Calculate framerate
+                t2 = cv2.getTickCount()
+                time1 = (t2-t1)/freq
+                frame_rate_calc = 1/time1
                 
-            
-            # Break the loop
-            else: 
-                break
+                # Poll the keyboard. If 'q' is pressed, exit the main loop.
+                key = cv2.waitKey(1) & 0xFF
+                if key == ord("q"):
+                    cam_quit = 1
             
         

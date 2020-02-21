@@ -1,0 +1,34 @@
+
+body {
+    font: small-caps  24px/1.2 sans-serif;
+}
+
+footer {
+    font-variant-caps: normal;
+    position: absolute;
+    bottom: 50px;
+    /* justify-content: center; */
+    /* width:100%; */
+    height: 1.5rem;
+}
+
+#page-container {
+    position: relative;
+    min-height: 98vh;
+    background: linear-gradient(to top, #ffffff 80%, #006666 144%);
+    
+}
+  
+#content-wrap {
+    padding-bottom: 0.5rem;
+}    
+
+
+.mdb-color-lighter-hover:hover {
+    -webkit-transition: .4s;
+    transition: .4s;
+    color: #b09182; }
+
+.card {
+    margin-bottom: 15px;
+}

@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Reference for CSS file -->
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="static/css/main.css">
     <!-- Reference for casino/dice icon -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
@@ -52,17 +52,19 @@
                 <!-- COLUMN -->
                 <div class="col">                  
                     <style>
-
-                    #videoElement {
+                      #container {
+                        margin: 0px auto;
+                        width: 500px;
+                        height: 375px;
+                        border: 10px #333 solid;
+                      }
+                      #videoElement {
                         width: 700px;
                         height: 475px;
                         background-color: #666;
-                    }
+                      }
                     </style> 
-
-                    <div id="container">
-                        <video autoplay="true" id="videoElement"></video>
-                    </div>
+                    <img src="{{ url_for('video_feed') }}">
                 </div>
 
                 <!-- COLUMN -->
@@ -92,7 +94,7 @@
     </div>
     </div>
 
-    <!-- Webcam script -->
+    <!-- Webcam script
     <script>
 
         var video = document.querySelector("#videoElement");
@@ -120,7 +122,7 @@
         }                  
         </script>
 
-  <img src="{{ url_for('video_feed') }}">
+  <img src="{{ url_for('video_feed') }}"> -->
     
     </body>
 </html>
