@@ -1,81 +1,126 @@
-<!-- <!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<title>Display Webcam Stream</title>
- 
-<style>
-#container {
-	margin: 0px auto;
-	width: 500px;
-	height: 375px;
-	border: 10px #333 solid;
-}
-#videoElement {
-	width: 500px;
-	height: 375px;
-	background-color: #666;
-}
-</style>
-</head>
- 
-<body>
-
-
-
-<div id="container">
-	<video autoplay="true" id="videoElement">
-	
-	</video>
-</div>
-<script>
-
-var video = document.querySelector("#videoElement");
-
-if (navigator.mediaDevices.getUserMedia) {
-  navigator.mediaDevices.getUserMedia({ video: true })
-    .then(function (stream) {
-      video.srcObject = stream;
-    })
-    .catch(function (err0r) {
-      console.log("Something went wrong!");
-    });
-}
-
-function stop(e) {
-  var stream = video.srcObject;
-  var tracks = stream.getTracks();
-
-  for (var i = 0; i < tracks.length; i++) {
-    var track = tracks[i];
-    track.stop();
-  }
-
-  video.srcObject = null;
-}
-
-</script>
-</body>
-</html> -->
-<html>
+<!doctype html>
+<html lang="en">
   <head>
-    <title>Video Streaming Demonstration</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Reference for CSS file -->
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <!-- Reference for casino/dice icon -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>Card Detection</title>
   </head>
   <body>
-    <h1>Video Streaming Demonstration</h1>
-    <style>
-      #container {
-        margin: 0px auto;
-        width: 500px;
-        height: 375px;
-        border: 10px #333 solid;
-      }
-      #videoElement {
-        width: 500px;
-        height: 375px;
-        background-color: #666;
-      }
-      </style>
-    <img src="{{ url_for('video_feed') }}">
-  </body>
+    <!-- Grid layout -->
+    <div id="page-container">
+        <div id="content-wrap">
+
+        <!-- Page Header -->    
+            <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+                    <h1 class="display-4">Playing Card Detection</h1>
+                    <p class="lead">Machine Learning Project</p>
+                    <!-- pseudo-navbar -->
+                        <a class="btn btn-outline-dark" href="#">
+                        <!-- Dice icon -->
+                        <i class="material-icons">&#xeb40;</i>Home
+                        </a>
+                        <a class="btn btn-outline-dark" href="#">
+                            <!-- Dice icon -->
+                            <i class="material-icons">&#xeb40;</i>Code
+                        </a> 
+                        <a class="btn btn-outline-dark" href="#">
+                            <!-- Dice icon -->
+                            <i class="material-icons">&#xeb40;</i>Data
+                        </a>                           
+            </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    
+        <!-- Section for webcam feed display -->
+      <div class="container-fluid">
+            <!-- ROW -->
+            <div class="row">
+
+                <!-- COLUMN -->
+                <div class="col">                  
+                    <style>
+
+                    #videoElement {
+                        width: 700px;
+                        height: 475px;
+                        background-color: #666;
+                    }
+                    </style> 
+
+                    <div id="container">
+                        <video autoplay="true" id="videoElement"></video>
+                    </div>
+                </div>
+
+                <!-- COLUMN -->
+                    <div class="col">
+                        <!-- Text color changes on mouse hover to help audience follow along in presentation-->
+                        <div class="card card mdb-color-lighter-hover">
+                            <div class="card-body">
+                                <h2 class="font-weight-bold">Detection</h2>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. </p>
+                            </div>
+                        </div>                                
+                    </div>         
+                </div>
+     
+                <!-- Spacing before footer -->
+                <br><br>
+        
+            <!-- Footer section -->
+            <footer>
+                <!-- line -->    
+                <hr>   
+                <p>Group 5: Abraham Ho, Abhishek Bhatt, Julia Sebring, Mikayla Kosmala, and Mike Bryant</p>
+            </footer> 
+
+        
+        </div>
+    </div>
+    </div>
+
+    <!-- Webcam script -->
+    <script>
+
+        var video = document.querySelector("#videoElement");
+        
+        if (navigator.mediaDevices.getUserMedia) {
+          navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function (stream) {
+              video.srcObject = stream;
+            })
+            .catch(function (err0r) {
+              console.log("Something went wrong!");
+            });
+        }
+        
+        function stop(e) {
+          var stream = video.srcObject;
+          var tracks = stream.getTracks();
+        
+          for (var i = 0; i < tracks.length; i++) {
+            var track = tracks[i];
+            track.stop();
+          }
+        
+          video.srcObject = null;
+        }                  
+        </script>
+
+  <img src="{{ url_for('video_feed') }}">
+    
+    </body>
 </html>
