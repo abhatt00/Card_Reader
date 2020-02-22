@@ -124,9 +124,7 @@ while cam_quit == 0:
              'Clubs','Hearts']
             
 
-
             # display blackjack total
-
 
 
 

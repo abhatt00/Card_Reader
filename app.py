@@ -20,7 +20,7 @@ def index():
 def gen(camera):
     """Video streaming generator function."""
     while True:
-        frame = camera.get_frame()
+        frame = camera.get_frame2()
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
@@ -37,7 +37,6 @@ def video_feed():
 # app.config["MONGO_URI"] = "mongodb://localhost:27017/BlackJack_cards"
 # mongo = PyMongo(app)
 
-
 # # converting an image to save it in mongo
 # with open("test.jpg", "rb") as imageFile:
 #     str = base64.b64encode(imageFile.read())
@@ -47,7 +46,6 @@ def video_feed():
 # # to call each image back
 # with open("test2.jpg", "wb") as fimage:
 #     fimage.write(base64.b64decode(str))
-
 
 
 # path = "playing-cards-master/img/"
