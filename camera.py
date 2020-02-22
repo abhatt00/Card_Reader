@@ -22,7 +22,6 @@ def CreateDeck(n_decks):
 
     return deck_state, count
 
-
 # create a function to update the deck
 def UpdateDeckState(DetectedCards, deck_state):
     for card in DetectedCards:
@@ -69,9 +68,6 @@ n_decks = 1
 deck_state, count = CreateDeck(n_decks)  # initialize the deck before main loop
 
 class VideoCamera(object):
-
-    # print(deck_state)
-
     def __init__(self):
         self.video = cv2.VideoCapture(1)
         self.window = cv2.namedWindow("test")
@@ -82,11 +78,6 @@ class VideoCamera(object):
     def get_frame2(self):
         ### ---- INITIALIZATION ---- ###
         # Define constants and initialize variables
-
-        ## Camera settings
-        IM_WIDTH = 1280
-        IM_HEIGHT = 720
-        FRAME_RATE = 30
 
         frame_rate_calc = 1
         freq = cv2.getTickFrequency()
@@ -115,6 +106,8 @@ class VideoCamera(object):
         # and processes them to find and identify playing cards.
 
         cam_quit = 0 # Loop control variable
+
+        disp_deck_state = False # control if deck state is displayed
 
         # Begin capturing frames
         while cam_quit == 0:
@@ -158,52 +151,70 @@ class VideoCamera(object):
                     
                     # Draw card contours on image (have to do contours all at once or
                     # they do not show up properly for some reason)
+                    count = 0
                     if (len(cards) != 0):
                         temp_cnts = []
+
                         for i in range(len(cards)):
                             temp_cnts.append(cards[i].contour)
                             cv2.drawContours(image,temp_cnts, -1, (255,0,0), 2)
 
                         # BEGIN: MIKE BRYANT ADDED CODE
                         # -------------------------------------
+                        # update deck state
+                        UpdateDeckState(cards, deck_state)
+
                         # display number of cards detected
                         cv2.putText(image, "# of cards detected: " + str(len(cards)), (10, 50), font, 0.7, (0, 255, 0), 2,
                                         cv2.LINE_AA)
 
-                        # display cards types detected
+                        # display cards types detectedr
                         textY = 70  # text height, to be updated each loop
-                        cv2.putText(image, " ", (10, 70), font, 0.7, (0, 255, 0), 2,
+                        cv2.putText(image, " ", (10, textY), font, 0.7, (0, 255, 0), 2,
                                         cv2.LINE_AA)
 
-                    # add count a print to screen
-                    i = 0
-                    for card in cards:
-                        # i += # index for loop
-                        textY += 20
-                        message = str(card.best_rank_match) + " of " + str(card.best_suit_match)
+                        textY += 25
+                        cv2.putText(image, "count      card    ", (10, textY), font, 0.7, (0, 255, 0), 2,
+                                    cv2.LINE_AA)
 
-                        cv2.putText(image, message, (10, textY), font, 0.7, (0, 255, 0), 2,
-                                            cv2.LINE_AA)
-
-                        # display deck state
-                        DisplayDeckState(deck_state, image, font)
-
-                        # display blackjack total
-                        # -------------------------------------
+                        # add count a print to screen
                         # High cards (10, Jack, Queen, King and ace) count as -1
                         # Low cards(2, 3, 4, 5 and 6) count as +1
                         # the rest count as 0
-                        CountCards(deck_state, cards, count)
+                        i = 0
+                        for card in cards:
+                            textY += 25
+                            i += 1
 
-                        # -------------------------------------
-                        # END: MIKE BRYANT ADDED CODE
+                            if card.best_rank_match in ('Ten', 'Jack', 'Queen', 'King', 'Ace'):
+                                count -= 1
+                                message = "  -1   " + str(card.best_rank_match) + " of " + str(card.best_suit_match)
+
+                            elif card.best_rank_match in ('Two', 'Three', 'Four', 'Five', 'Six'):
+                                count += 1
+                                message = "  +1   " + str(card.best_rank_match) + " of " + str(card.best_suit_match)
+                            else:
+                                message = "   0   " + str(card.best_rank_match) + " of " + str(card.best_suit_match)
+
+                            cv2.putText(image, message, (10, textY), font, 0.7, (0, 255, 0), 2,
+                                                cv2.LINE_AA)
+
+
+                        message = "Current Count: " + str(count)
+                        cv2.putText(image, message, (10, textY+25), font, 0.7, (0, 255, 0), 2,
+                                    cv2.LINE_AA)
+
+                    # display deck state
+                    if disp_deck_state:
+                        DisplayDeckState(deck_state, image, font)
+
+                    # -------------------------------------
+                    # END: MIKE BRYANT ADDED CODE
 
                 # Draw framerate in the corner of the image. Framerate is calculated at the end of the main loop,
                 # so the first time this runs, framerate will be shown as 0.
-                cv2.putText(image, "FPS: "+ str(int(frame_rate_calc)),(10,26),font,0.7,(255,0,255),2,cv2.LINE_AA)
+                # cv2.putText(image, "FPS: "+ str(int(frame_rate_calc)),(10,26),font,0.7,(255,0,255),2,cv2.LINE_AA)
 
-                # MIKE BRYANT ADDED CODE
-                # -------------------------------------
                 if ret == True:
                     ret, jpeg = cv2.imencode('.jpg', image)
                     return jpeg.tobytes()
@@ -218,3 +229,10 @@ class VideoCamera(object):
                 key = cv2.waitKey(1) & 0xFF
                 if key == ord("q"):
                     cam_quit = 1
+                elif key == ord("r"):
+                    if disp_deck_state:
+                        disp_deck_state = False
+                    else:
+                        disp_deck_state = True
+
+
