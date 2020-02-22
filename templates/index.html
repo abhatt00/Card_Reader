@@ -5,12 +5,18 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Reference for CSS file -->
-    <link rel="stylesheet" href="static/css/main.css">
+    <link rel="stylesheet" href="../static/css/main.css">
     <!-- Reference for casino/dice icon -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <!-- Reference for Camera -->
+    <link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/default.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
 
     <title>Card Detection</title>
   </head>
@@ -21,21 +27,25 @@
 
         <!-- Page Header -->    
             <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-                    <h1 class="display-4">Playing Card Detection</h1>
-                    <p class="lead">Machine Learning Project</p>
+                    <h1 class="display-3"  id="section1">Playing Card Detection</h1>
+                    <h2>Machine Learning Project</h3>
                     <!-- pseudo-navbar -->
-                        <a class="btn btn-outline-dark" href="#">
+                        <a class="btn btn-outline-dark" href="#section2">
                         <!-- Dice icon -->
-                        <i class="material-icons">&#xeb40;</i>Home
+                        <i class="material-icons">&#xeb40;</i>Video Camera
                         </a>
-                        <a class="btn btn-outline-dark" href="#">
+                        <a class="btn btn-outline-dark" href="#section3">
                             <!-- Dice icon -->
-                            <i class="material-icons">&#xeb40;</i>Code
+                            <i class="material-icons">&#xeb40;</i>Flask
                         </a> 
-                        <a class="btn btn-outline-dark" href="#">
+                        <a class="btn btn-outline-dark" href="#section4">
                             <!-- Dice icon -->
-                            <i class="material-icons">&#xeb40;</i>Data
-                        </a>                           
+                            <i class="material-icons">&#xeb40;</i>MongoDB
+                        </a>
+                        <a class="btn btn-outline-dark" href="#section5">
+                          <!-- Dice icon -->
+                          <i class="material-icons">&#xeb40;</i>CV2
+                      </a>                            
             </div>
 
     <!-- Optional JavaScript -->
@@ -69,21 +79,133 @@
 
                 <!-- COLUMN -->
                     <div class="col">
-                        <!-- Text color changes on mouse hover to help audience follow along in presentation-->
-                        <div class="card card mdb-color-lighter-hover">
-                            <div class="card-body">
-                                <h2 class="font-weight-bold">Detection</h2>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. </p>
-                            </div>
-                        </div>                                
+                                            
                     </div>         
                 </div>
      
+
+              <!-- ROW FOR VIDEO CAMERA CODE -->
+              <div class="row">
+
+                <!-- COLUMN-->
+
+                <div class="col" id="section2">                  
+                  <!-- <section id="section2"> -->
+
+                    <!-- Text color changes on mouse hover to help audience follow along in presentation-->
+                    <div class="card card mdb-color-lighter-hover">
+                      <div class="card-body">
+                          <h2 class="font-weight-bold">Video Camera</h2>
+                          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. </p>
+                          <img class="card-img-top img-responsive" src="../static/resource/camera_class.png" alt="webcam">
+                      </div>
+                    </div>
+                  <!-- </section>     -->
+                      
+                </div> 
+
+                </div>
+
+
+              <!-- ROW FOR FLASK CODE -->
+              <div class="row">
+
+                <!-- COLUMN-->
+
+                <div class="col" id="section3">                  
+                  <!-- <section id="section2"> -->
+
+                    <!-- Text color changes on mouse hover to help audience follow along in presentation-->
+                    <div class="card card mdb-color-lighter-hover">
+                      <div class="card-body">
+                          <h2 class="font-weight-bold">Flask</h2>
+                          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. </p>
+                          <img class="card-img-top img-responsive" src="../static/resource/flask_app.png" alt="flask">
+                      </div>
+                    </div>
+                  <!-- </section>     -->
+                      
+                </div> 
+
+                </div>
+                
+
+                <!-- ROW FOR MONGODB -->
+              <div class="row">
+
+                <!-- COLUMN -->
+
+                <div class="col" id="section4">                  
+                  <!-- <section id="section2"> -->
+
+                    <!-- Text color changes on mouse hover to help audience follow along in presentation-->
+                    <div class="card card mdb-color-lighter-hover">
+                      <div class="card-body">
+                          <h2 class="font-weight-bold">MongoDB</h2>
+                          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. </p>
+                          <img class="card-img-top img-responsive" src="../static/resource/mongo.png" alt="mongo">
+                      </div>
+                    </div>
+                  <!-- </section>     -->
+                      
+                </div> 
+
+                </div>
+
+                <!-- ROW FOR CV2 -->
+              <div class="row">
+
+                <!-- COLUMN -->
+
+                <div class="col" id="section5">                  
+                  <!-- <section id="section2"> -->
+
+                    <!-- Text color changes on mouse hover to help audience follow along in presentation-->
+                    <div class="card card mdb-color-lighter-hover">
+                      <div class="card-body">
+                          <h2 class="font-weight-bold">CV2</h2>
+                          <p>Initial card deck repo credit: <link href="https://github.com/EdjeElectronics/OpenCV-Playing-Card-Detector"> </p>
+                          <img class="card-img-top img-responsive" src="../static/resource/###.png" alt="cv2-1">
+                          <img class="card-img-top img-responsive" src="../static/resource/###.png" alt="cv2-2">
+                          <img class="card-img-top img-responsive" src="../static/resource/###.png" alt="cv2-3">
+                          <img class="card-img-top img-responsive" src="../static/resource/###.png" alt="cv2-4">
+                          <img class="card-img-top img-responsive" src="../static/resource/###.png" alt="cv2-5">
+                          <img class="card-img-top img-responsive" src="../static/resource/###.png" alt="cv2-6">
+                          <img class="card-img-top img-responsive" src="../static/resource/###.png" alt="cv2-7">
+                          <img class="card-img-top img-responsive" src="../static/resource/###.png" alt="cv2-8">
+                          <img class="card-img-top img-responsive" src="../static/resource/###.png" alt="cv2-9">
+                          <img class="card-img-top img-responsive" src="../static/resource/###.png" alt="cv2-10">
+                          <img class="card-img-top img-responsive" src="../static/resource/###.png" alt="cv2-11">
+                          <img class="card-img-top img-responsive" src="../static/resource/###.png" alt="cv2-12">
+                          <img class="card-img-top img-responsive" src="../static/resource/###.png" alt="cv2-13">
+                          <img class="card-img-top img-responsive" src="../static/resource/###.png" alt="cv2-14">
+                          <img class="card-img-top img-responsive" src="../static/resource/###.png" alt="cv2-15">
+                          <img class="card-img-top img-responsive" src="../static/resource/###.png" alt="cv2-16">
+                          <img class="card-img-top img-responsive" src="../static/resource/###.png" alt="cv2-17">
+                          <img class="card-img-top img-responsive" src="../static/resource/###.png" alt="cv2-18">
+                          <img class="card-img-top img-responsive" src="../static/resource/###.png" alt="cv2-19">
+                          <img class="card-img-top img-responsive" src="../static/resource/###.png" alt="cv2-20">
+                          <img class="card-img-top img-responsive" src="../static/resource/###.png" alt="cv2-21">
+                          <img class="card-img-top img-responsive" src="../static/resource/###.png" alt="cv2-22">
+                          <img class="card-img-top img-responsive" src="../static/resource/###.png" alt="cv2-23">
+                          <img class="card-img-top img-responsive" src="../static/resource/###.png" alt="cv2-24">   
+                      </div>
+                    </div>
+                  <!-- </section>     -->
+                      
+                </div> 
+
+                </div>
+
                 <!-- Spacing before footer -->
-                <br><br>
+                <br><br><br>
         
             <!-- Footer section -->
             <footer>
+              <!-- Button for returning to header section -->
+              <a class="btn btn-outline-dark" href="#section1">
+                <i class="material-icons">&#xeb40;</i>Jump to top
+              </a>
                 <!-- line -->    
                 <hr>   
                 <p>Group 5: Abraham Ho, Abhishek Bhatt, Julia Sebring, Mikayla Kosmala, and Mike Bryant</p>
