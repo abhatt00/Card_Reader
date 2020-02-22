@@ -12,12 +12,6 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-    <!-- Reference for Camera -->
-    <link rel="stylesheet"
-      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/default.min.css">
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
-
     <title>Card Detection</title>
   </head>
   <body>
@@ -64,23 +58,23 @@
                     <style>
                       #container {
                         margin: 0px auto;
-                        width: 500px;
+                        width: 100px;
                         height: 375px;
-                        border: 10px #333 solid;
+                        border: 1px #333 solid;
+                        
                       }
                       #videoElement {
-                        width: 700px;
-                        height: 475px;
+                        width: 900px;
+                        height: 600px;
                         background-color: #666;
+                        padding-bottom: 20px;
                       }
                     </style> 
-                    <img src="{{ url_for('video_feed') }}">
+                    <!-- <img src="{{ url_for('video_feed') }}"> -->
+                    <video autoplay="true" id="videoElement"></video>
                 </div>
 
-                <!-- COLUMN -->
-                    <div class="col">
-                                            
-                    </div>         
+                
                 </div>
      
 
@@ -90,8 +84,7 @@
                 <!-- COLUMN-->
 
                 <div class="col" id="section2">                  
-                  <!-- <section id="section2"> -->
-
+                  
                     <!-- Text color changes on mouse hover to help audience follow along in presentation-->
                     <div class="card card mdb-color-lighter-hover">
                       <div class="card-body">
@@ -100,7 +93,7 @@
                           <img class="card-img-top img-responsive" src="../static/resource/camera_class.png" alt="webcam">
                       </div>
                     </div>
-                  <!-- </section>     -->
+                  
                       
                 </div> 
 
@@ -113,8 +106,7 @@
                 <!-- COLUMN-->
 
                 <div class="col" id="section3">                  
-                  <!-- <section id="section2"> -->
-
+                  
                     <!-- Text color changes on mouse hover to help audience follow along in presentation-->
                     <div class="card card mdb-color-lighter-hover">
                       <div class="card-body">
@@ -123,8 +115,7 @@
                           <img class="card-img-top img-responsive" src="../static/resource/flask_app.png" alt="flask">
                       </div>
                     </div>
-                  <!-- </section>     -->
-                      
+                                        
                 </div> 
 
                 </div>
@@ -136,8 +127,7 @@
                 <!-- COLUMN -->
 
                 <div class="col" id="section4">                  
-                  <!-- <section id="section2"> -->
-
+                  
                     <!-- Text color changes on mouse hover to help audience follow along in presentation-->
                     <div class="card card mdb-color-lighter-hover">
                       <div class="card-body">
@@ -158,13 +148,14 @@
                 <!-- COLUMN -->
 
                 <div class="col" id="section5">                  
-                  <!-- <section id="section2"> -->
-
+                  
                     <!-- Text color changes on mouse hover to help audience follow along in presentation-->
                     <div class="card card mdb-color-lighter-hover">
                       <div class="card-body">
                           <h2 class="font-weight-bold">CV2</h2>
-                          <p>Initial card deck repo credit: <link href="https://github.com/EdjeElectronics/OpenCV-Playing-Card-Detector"> </p>
+                          <!-- LINK NOT APPEARING -->
+                          <p>Initial card deck repo credit: </p><link href="https://github.com/EdjeElectronics/OpenCV-Playing-Card-Detector" LINK>
+                           
                           <img class="card-img-top img-responsive" src="../static/resource/###.png" alt="cv2-1">
                           <img class="card-img-top img-responsive" src="../static/resource/###.png" alt="cv2-2">
                           <img class="card-img-top img-responsive" src="../static/resource/###.png" alt="cv2-3">
@@ -191,7 +182,7 @@
                           <img class="card-img-top img-responsive" src="../static/resource/###.png" alt="cv2-24">   
                       </div>
                     </div>
-                  <!-- </section>     -->
+    
                       
                 </div> 
 
@@ -216,7 +207,7 @@
     </div>
     </div>
 
-    <!-- Webcam script
+    <!-- Webcam script !-->
     <script>
 
         var video = document.querySelector("#videoElement");
@@ -244,7 +235,7 @@
         }                  
         </script>
 
-  <img src="{{ url_for('video_feed') }}"> -->
+  <!-- <img src="{{ url_for('video_feed') }}"> -->
     
     </body>
 </html>
