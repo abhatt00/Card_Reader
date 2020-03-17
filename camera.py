@@ -5,7 +5,10 @@ import Cards
 import os
 # import VideoStream
 import time
+import PokerFunction
 
+
+Five_Card_Hand = []
 
 def CreateDeck(n_decks):
     # standard playing car deck, for blackjack (no suits)
@@ -69,13 +72,13 @@ deck_state, count = CreateDeck(n_decks)  # initialize the deck before main loop
 
 class VideoCamera(object):
     def __init__(self):
-        self.video = cv2.VideoCapture(1)
+        self.video = cv2.VideoCapture(0)
 
         # set video size
-        self.video.set(cv2.CAP_PROP_FRAME_WIDTH, 1200)
-        self.video.set(cv2.CAP_PROP_FRAME_HEIGHT, 800)
+        # self.video.set(cv2.CAP_PROP_FRAME_WIDTH, 1200)
+        # self.video.set(cv2.CAP_PROP_FRAME_HEIGHT, 800)
 
-        self.window = cv2.namedWindow("test")
+        # self.window = cv2.namedWindow("test")
 
     def __del__(self):
         self.video.release()
@@ -150,6 +153,9 @@ class VideoCamera(object):
                             # Find the best rank and suit match for the card.
                             cards[k].best_rank_match,cards[k].best_suit_match,cards[k].rank_diff,cards[k].suit_diff = Cards.match_card(cards[k],train_ranks,train_suits)
 
+                            ## The card rank we need is here
+                            ## We need 5 cards
+
                             # Draw center point and match result on the image.
                             image = Cards.draw_results(image, cards[k])
                             k = k + 1
@@ -203,11 +209,65 @@ class VideoCamera(object):
 
                             cv2.putText(image, message, (10, textY), font, 0.7, (0, 255, 0), 2,
                                                 cv2.LINE_AA)
+                            
+
+                    if(len(cards) == 5):
+                        Five_Card_Hand = []                 # Delete Previous Hand
+                        for card in cards:
+
+                            suit = card.best_suit_match     # Suit Match
+                            rank = card.best_rank_match     # Number Match
+
+                            # Convert Suit to match Ashkan's Code
+
+                            if suit == "Hearts":
+                                Five_Card_Hand.append("1")
+                            elif suit == "Spades":
+                                Five_Card_Hand.append("2")
+                            elif suit == "Diamonds":
+                                Five_Card_Hand.append("3")
+                            elif suit == "Clubs":
+                                Five_Card_Hand.append("4")
+
+                            # Convert Rank to match Ashkan's Code
+                            if rank == "Ace":
+                                Five_Card_Hand.append("1")
+                            elif rank == "Two":
+                                Five_Card_Hand.append("2")
+                            elif rank == "Three":
+                                Five_Card_Hand.append("3")
+                            elif rank == "Four":
+                                Five_Card_Hand.append("4")
+                            elif rank == "Five":
+                                Five_Card_Hand.append("5")
+                            elif rank == "Six":
+                                Five_Card_Hand.append("6")
+                            elif rank == "Seven":
+                                Five_Card_Hand.append("7")
+                            elif rank == "Eight":
+                                Five_Card_Hand.append("8")
+                            elif rank == "Nine":
+                                Five_Card_Hand.append("9")
+                            elif rank == "Ten":
+                                Five_Card_Hand.append("10")
+                            elif rank == "Jack":
+                                Five_Card_Hand.append("11")
+                            elif rank == "Queen":
+                                Five_Card_Hand.append("12")
+                            elif rank == "King":
+                                Five_Card_Hand.append("13")
+                        
+                        print(Five_Card_Hand)
+
+                        Hand = PokerFunction.poker(Five_Card_Hand)
+                        print(Hand)
+                            
 
 
                         message = "Current Count: " + str(count)
                         cv2.putText(image, message, (10, textY+25), font, 0.7, (0, 255, 0), 2,
                                     cv2.LINE_AA)
+                        
 
                     # display deck state
                     if disp_deck_state:
