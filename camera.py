@@ -1,3 +1,4 @@
+
 from time import time
 import cv2
 import numpy as np
@@ -9,41 +10,43 @@ import PokerFunction
 
 
 Five_Card_Hand = []
-
-def CreateDeck(n_decks):
-    # standard playing car deck, for blackjack (no suits)
-    deck = ['Ace', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight',
-            'Nine', 'Ten', 'Jack', 'Queen', 'King', 'Spades', 'Diamonds',
-            'Clubs', 'Hearts']
-
-    # initialize card count, (always starts at zero)
-    count = 0
-
-    deck_state = {}
-    for row in deck:
-        deck_state[row] = 4 * n_decks
-
-    return deck_state, count
-
-# create a function to update the deck
-def UpdateDeckState(DetectedCards, deck_state):
-    for card in DetectedCards:
-        deck_state[card.best_rank_match] = 0
-        # need to consider how to update the deck but with limits,
-        # e.g. only remove from deck if the card persists for a certain time
-        #     or if a card of the same time appears right after in the same location, ignore
-        return deck_state
+PreviousCombo = ""
 
 
-# create a function to display the deck state
-def DisplayDeckState(deck_state, image, font):
-    H = 65
-    cv2.putText(image, " Deck State ", (1100, 25), font, 0.7, (0, 255, 0), 2, cv2.LINE_AA)
-    cv2.putText(image, " -------- ", (1100, 40), font, 0.7, (0, 255, 0), 2, cv2.LINE_AA)
-    for k, v in deck_state.items():
-        cv2.putText(image, k + ": " + str(v), (1100, H), font, 0.7, (0, 255, 0), 2,
-                    cv2.LINE_AA)
-        H += 20
+# def CreateDeck(n_decks):
+#     # standard playing car deck, for blackjack (no suits)
+#     deck = ['Ace', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight',
+#             'Nine', 'Ten', 'Jack', 'Queen', 'King', 'Spades', 'Diamonds',
+#             'Clubs', 'Hearts']
+
+#     # initialize card count, (always starts at zero)
+#     count = 0
+
+#     deck_state = {}
+#     for row in deck:
+#         deck_state[row] = 4 * n_decks
+
+#     return deck_state, count
+
+# # create a function to update the deck
+# def UpdateDeckState(DetectedCards, deck_state):
+#     for card in DetectedCards:
+#         deck_state[card.best_rank_match] = 0
+#         # need to consider how to update the deck but with limits,
+#         # e.g. only remove from deck if the card persists for a certain time
+#         #     or if a card of the same time appears right after in the same location, ignore
+#         return deck_state
+
+
+# # create a function to display the deck state
+# def DisplayDeckState(deck_state, image, font):
+#     H = 65
+#     cv2.putText(image, " Deck State ", (1100, 25), font, 0.7, (0, 255, 0), 2, cv2.LINE_AA)
+#     cv2.putText(image, " -------- ", (1100, 40), font, 0.7, (0, 255, 0), 2, cv2.LINE_AA)
+#     for k, v in deck_state.items():
+#         cv2.putText(image, k + ": " + str(v), (1100, H), font, 0.7, (0, 255, 0), 2,
+#                     cv2.LINE_AA)
+#         H += 20
 
     return image
 
@@ -86,7 +89,7 @@ class VideoCamera(object):
     def get_frame2(self):
         ### ---- INITIALIZATION ---- ###
         # Define constants and initialize variables
-
+        PreviousCombo = ""
         frame_rate_calc = 1
         freq = cv2.getTickFrequency()
 
@@ -121,6 +124,7 @@ class VideoCamera(object):
         while cam_quit == 0:
                 # Grab frame from video stream
                 ret, image = self.video.read()
+                # cv2.putText(image, "Previous Hand:" + PreviousCombo, (10, 300), font, 0.7, (0, 255, 0), 2, cv2.LINE_AA)    
 
                 # Start timer (for calculating frame rate)
                 t1 = cv2.getTickCount()
@@ -173,46 +177,47 @@ class VideoCamera(object):
                         # BEGIN: MIKE BRYANT ADDED CODE
                         # -------------------------------------
                         # update deck state
-                        UpdateDeckState(cards, deck_state)
+                        # UpdateDeckState(cards, deck_state)
 
-                        # display number of cards detected
-                        cv2.putText(image, "# of cards detected: " + str(len(cards)), (10, 50), font, 0.7, (0, 255, 0), 2,
-                                        cv2.LINE_AA)
+                        # # display number of cards detected
+                        # cv2.putText(image, "# of cards detected: " + str(len(cards)), (10, 50), font, 0.7, (0, 255, 0), 2,
+                        #                 cv2.LINE_AA)
 
-                        # display cards types detectedr
-                        textY = 70  # text height, to be updated each loop
-                        cv2.putText(image, " ", (10, textY), font, 0.7, (0, 255, 0), 2,
-                                        cv2.LINE_AA)
+                        # # display cards types detectedr
+                        # textY = 70  # text height, to be updated each loop
+                        # cv2.putText(image, " ", (10, textY), font, 0.7, (0, 255, 0), 2,
+                        #                 cv2.LINE_AA)
 
-                        textY += 25
-                        cv2.putText(image, "count      card    ", (10, textY), font, 0.7, (0, 255, 0), 2,
-                                    cv2.LINE_AA)
+                        # textY += 25
+                        # cv2.putText(image, "count      card    ", (10, textY), font, 0.7, (0, 255, 0), 2,
+                        #             cv2.LINE_AA)
 
                         # add count a print to screen
                         # High cards (10, Jack, Queen, King and ace) count as -1
                         # Low cards(2, 3, 4, 5 and 6) count as +1
                         # the rest count as 0
-                        i = 0
-                        for card in cards:
-                            textY += 25
-                            i += 1
+                        # i = 0
+                        # for card in cards:
+                        #     textY += 25
+                        #     i += 1
 
-                            if card.best_rank_match in ('Ten', 'Jack', 'Queen', 'King', 'Ace'):
-                                count -= 1
-                                message = "  -1   " + str(card.best_rank_match) + " of " + str(card.best_suit_match)
+                        #     if card.best_rank_match in ('Ten', 'Jack', 'Queen', 'King', 'Ace'):
+                        #         count -= 1
+                        #         message = "  -1   " + str(card.best_rank_match) + " of " + str(card.best_suit_match)
 
-                            elif card.best_rank_match in ('Two', 'Three', 'Four', 'Five', 'Six'):
-                                count += 1
-                                message = "  +1   " + str(card.best_rank_match) + " of " + str(card.best_suit_match)
-                            else:
-                                message = "   0   " + str(card.best_rank_match) + " of " + str(card.best_suit_match)
+                        #     elif card.best_rank_match in ('Two', 'Three', 'Four', 'Five', 'Six'):
+                        #         count += 1
+                        #         message = "  +1   " + str(card.best_rank_match) + " of " + str(card.best_suit_match)
+                        #     else:
+                        #         message = "   0   " + str(card.best_rank_match) + " of " + str(card.best_suit_match)
 
-                            cv2.putText(image, message, (10, textY), font, 0.7, (0, 255, 0), 2,
-                                                cv2.LINE_AA)
+                        #     cv2.putText(image, message, (10, textY), font, 0.7, (0, 255, 0), 2,
+                        #                         cv2.LINE_AA)
                             
 
                     if(len(cards) == 5):
                         Five_Card_Hand = []                 # Delete Previous Hand
+                        Hand = ""
                         for card in cards:
 
                             suit = card.best_suit_match     # Suit Match
@@ -261,13 +266,10 @@ class VideoCamera(object):
 
                         Hand = PokerFunction.poker(Five_Card_Hand)
                         print(Hand)
-                            
+                        if Hand and Hand != "None":
+                            PreviousCombo = Hand
 
-
-                        message = "Current Count: " + str(count)
-                        cv2.putText(image, message, (10, textY+25), font, 0.7, (0, 255, 0), 2,
-                                    cv2.LINE_AA)
-                        
+                # cv2.putText(image, "Previous Hand:" + Hand, (10, 70), font, 0.7, (0, 255, 0), 2, cv2.LINE_AA)    
 
                     # display deck state
                     if disp_deck_state:
