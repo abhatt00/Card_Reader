@@ -9,8 +9,12 @@ The best available five-card Poker hand is displayed in the terminal window.
 
 Webpage:
 [Main screen](Webcam_cards_img.png)
+<img width=“500” alt=“” src="https://github.com/abhatt00/Card_Reader/blob/master/Webcam_cards_img.png">
+
 
 MongoDB:
-[Main screen](MongoDB_webpage.png)
+[Database image](MongoDB_webpage.png)
+<img width=“500” alt=“” src="https://github.com/abhatt00/Card_Reader/blob/master/MongoDB_webpage.png">
+
 
 We utilized MongoDB to take each recognized image and convert it to a string, then convert it back to an image once the correct card value is shown.
